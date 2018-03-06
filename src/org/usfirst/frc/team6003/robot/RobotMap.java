@@ -25,10 +25,17 @@ public class RobotMap {
 	// public static int rangefinderModule = 1;
 	
 	
-	//Motor Code
-	public static int fLeftMotor = 5;
-	public static int rRightMotor = 2;
+	//Drivetrain
+	public static int rLeftMotor = 3;
+	public static int rRightMotor = 6;
 	
-	public static int lIntake = 30;
-	public static int rIntake = 29;
+	public static int miLeftMotor = 4;
+	public static int miRightMotor = 1;
+	
+	//Intake
+	public static int lIntake = 0;
+	public static int rIntake = 1;
+	
+	//Elevator
+	public static int elevator = 5;
 }

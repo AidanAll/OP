@@ -7,10 +7,13 @@
 
 package org.usfirst.frc.team6003.robot;
 
+import org.usfirst.frc.team6003.robot.commands.ClampCommand;
 import org.usfirst.frc.team6003.robot.commands.In;
+import org.usfirst.frc.team6003.robot.commands.Out;
+import org.usfirst.frc.team6003.robot.commands.ReverseClampCommand;
+import org.usfirst.frc.team6003.robot.util.JoystickMap;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
@@ -45,16 +48,54 @@ public class OI {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
-	public Joystick m_Joystick = new Joystick(0);
-	Button suckItInButton = new JoystickButton(m_Joystick, 1);
+	public Joystick driveJoystick = new Joystick(0);
+	public Joystick elevatorJoystick = new Joystick(1);
+	
+	private static final double STICK_DEADBAND = 0.05;
 	public OI()
 	{
+		//Initialize some buttons
+		JoystickButton suckItInButton = new JoystickButton(driveJoystick, 1);
+		JoystickButton blowItOut = new JoystickButton(driveJoystick, 2);
+		JoystickButton clamp = new JoystickButton(driveJoystick, 3);
+		JoystickButton reverseClamp = new JoystickButton(driveJoystick, 4);
+		
+		
 		suckItInButton.whileHeld(new In());
+		blowItOut.whileHeld(new Out());
+		clamp.whenPressed(new ClampCommand());
+		reverseClamp.whenPressed(new ReverseClampCommand());
 	}
 	
 	public Joystick getJoystick()
 	{
-		return m_Joystick;
+		return driveJoystick;
 	}
+	public Joystick getElevatorJoystick()
+	{
+		return elevatorJoystick;
+	}
+    private static double stickDeadband(double value, double deadband, double center) {
+        return (value < (center + deadband) && value > (center - deadband)) ? center : value;
+    }
+    public double getDriverLeftStickY() {
+        return stickDeadband(this.driveJoystick.getRawAxis(JoystickMap.LEFT_Y), STICK_DEADBAND, 0.0);
+    }
+
+    public double getDriverLeftStickX() {
+        return stickDeadband(this.driveJoystick.getRawAxis(JoystickMap.LEFT_X), STICK_DEADBAND, 0.0);
+    }
+
+    public double getDriverRightStickY() {
+        return stickDeadband(this.driveJoystick.getRawAxis(JoystickMap.RIGHT_Y), STICK_DEADBAND, 0.0);
+    }
+
+    public double getDriverRightStickX() {
+        return stickDeadband(this.driveJoystick.getRawAxis(JoystickMap.RIGHT_X), STICK_DEADBAND, 0.0);
+    }
+
+    public double getDriverTriggerSum() {
+        return this.driveJoystick.getRawAxis(3) - this.driveJoystick.getRawAxis(2); //TODO: Check Axis (Right - Left)
+    }	
 	
 }

@@ -7,13 +7,15 @@
 
 package org.usfirst.frc.team6003.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team6003.robot.commands.ExampleCommand;
-import org.usfirst.frc.team6003.robot.subsystems.Drive;
+import org.usfirst.frc.team6003.robot.subsystems.BetterDrive;
+import org.usfirst.frc.team6003.robot.subsystems.Elevator;
 import org.usfirst.frc.team6003.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team6003.robot.subsystems.Intake;
 
@@ -25,10 +27,12 @@ import org.usfirst.frc.team6003.robot.subsystems.Intake;
  * project.
  */
 public class Robot extends TimedRobot {
+	Compressor c = new Compressor(0);
 	public static final ExampleSubsystem kExampleSubsystem
 			= new ExampleSubsystem();
-	public static final Drive drivetrain = new Drive();
+	public static final BetterDrive drivetrain = new BetterDrive();
 	public static final Intake armtake = new Intake();
+	public static final Elevator elevator = new Elevator();
 	public static OI m_oi;
 
 	Command m_autonomousCommand;
@@ -40,6 +44,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		
 		m_oi = new OI();
 		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -106,6 +111,7 @@ public class Robot extends TimedRobot {
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
+		c.start();
 	}
 
 	/**
