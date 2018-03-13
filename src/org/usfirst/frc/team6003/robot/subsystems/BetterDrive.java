@@ -27,8 +27,8 @@ public class BetterDrive extends Subsystem {
 		this.rearLeftDrive.follow(frontLeftDrive);
 		this.rearRightDrive.follow(frontRightDrive);
 		//Invert
-		this.rearRightDrive.setInverted(false);
-		this.frontRightDrive.setInverted(false);
+		this.rearRightDrive.setInverted(true);
+		this.frontRightDrive.setInverted(true);
 	}
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
